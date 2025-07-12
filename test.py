@@ -46,10 +46,3 @@ def dfs(potion):
 
 # Output result
 print(dfs(target))
-
-
-n = int(input)
-farmers = list(map(input.split()))
-for i in range n:
-    farmers[i] = list(map.input.split())
-
