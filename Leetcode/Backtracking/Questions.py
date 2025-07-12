@@ -125,7 +125,6 @@ class Solution:
         backtrack(0, [])
         return result
 
-
 # N QUEENS II
 class Solution:
     def totalNQueens(self, n: int) -> int:
