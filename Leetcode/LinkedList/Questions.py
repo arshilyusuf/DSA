@@ -181,3 +181,44 @@ class LRUCache:
             self.lruMap[key] = newNode
             self.insertFront(newNode)
             self.currCapacity += 1
+
+# 25. Reverse Nodes in k-Group
+# Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.
+# k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.
+# You may not alter the values in the list's nodes, only nodes themselves may be changed.
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if not head:
+            return None
+        
+        # Step 1: Check if there are at least k nodes to reverse
+        curr = head
+        count = 0
+        while curr and count < k:
+            curr = curr.next
+            count += 1
+        
+        if count < k:
+            return head  # Not enough nodes to reverse; leave as is
+        
+        # Step 2: Reverse k nodes
+        prev = None
+        curr = head
+        count = 0
+        while curr and count < k:
+            tmp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = tmp
+            count += 1
+        
+        # Step 3: Recurse on remaining list and connect
+        head.next = self.reverseKGroup(curr, k)
+        
+        return prev  # New head of this reversed segment
