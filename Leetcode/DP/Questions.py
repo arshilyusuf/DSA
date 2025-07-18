@@ -48,3 +48,29 @@ class Solution:
                 notsplit = nums[i]*sign + dp[i+1][j^1]
                 dp[i][j] = max(split, notsplit)
         return dp[0][0]
+
+# 673. Number of Longest Increasing Subsequence
+# Given an integer array nums, return the number of longest increasing subsequences.
+# Notice that the sequence has to be strictly increasing
+class Solution:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        dp = {}  
+        lenLIS, res = 0, 0  
+
+        for i in range(len(nums) - 1, -1, -1):
+            maxLen, maxCnt = 1, 1  
+
+            for j in range(i + 1, len(nums)):
+                if nums[j] > nums[i]:
+                    length, count = dp[j]  
+                    if length + 1 > maxLen:
+                        maxLen, maxCnt = length + 1, count
+                    elif length + 1 == maxLen:
+                        maxCnt += count
+            if maxLen > lenLIS:
+                lenLIS, res = maxLen, maxCnt
+            elif maxLen == lenLIS:
+                res += maxCnt
+            dp[i] = [maxLen, maxCnt]
+
+        return res

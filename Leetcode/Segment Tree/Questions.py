@@ -20,7 +20,7 @@ class NumArray:
         if l == r:
             self.seg[index] = self.nums[l]
             return self.seg[index]
-        mid = (l + r) // 2
+        mid = (l + r) // 2  
         left = self._build(2 * index + 1, l, mid)
         right = self._build(2 * index + 2, mid + 1, r)
         self.seg[index] = left + right
@@ -51,3 +51,4 @@ class NumArray:
 
     def sumRange(self, left: int, right: int) -> int:
         return self.getSum(0, 0, self.n - 1, left, right)
+
