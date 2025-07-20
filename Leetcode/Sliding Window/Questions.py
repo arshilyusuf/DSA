@@ -135,5 +135,73 @@ class Solution:
                 res.append(q[0])
         
         return res
-            
-        
+    
+# 395. Longest Substring with At Least K Repeating Characters
+# Given a string s and an integer k, return the length of the longest substring of s such that the frequency of each character in this substring is greater than or equal to k.
+# if no such substring exists, return 0.
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
+        def getMaxUniqueLetters(s):
+            seen = [0] * 26
+            unique = 0
+            for c in s:
+                idx = ord(c) - ord('a')
+                if seen[idx] == 0:
+                    unique += 1
+                    seen[idx] = 1
+            return unique
+
+        maxUnique = getMaxUniqueLetters(s)
+        result = 0
+
+        for currUnique in range(1, maxUnique + 1):
+            count_map = [0] * 26
+            winStart = 0
+            winEnd = 0
+            unique = 0
+            atLeastK = 0
+
+            while winEnd < len(s):
+                if unique <= currUnique:
+                    idx = ord(s[winEnd]) - ord('a')
+                    if count_map[idx] == 0:
+                        unique += 1
+                    count_map[idx] += 1
+                    if count_map[idx] == k:
+                        atLeastK += 1
+                    winEnd += 1
+                else:
+                    idx = ord(s[winStart]) - ord('a')
+                    if count_map[idx] == k:
+                        atLeastK -= 1
+                    count_map[idx] -= 1
+                    if count_map[idx] == 0:
+                        unique -= 1
+                    winStart += 1
+
+                if unique == currUnique and unique == atLeastK:
+                    result = max(result, winEnd - winStart)
+
+        return result
+    
+# 413. Arithmetic Slices
+# An integer array is called arithmetic if it consists of at least three elements and if the difference between any two consecutive elements is the same.
+# For example, [1,3,5,7,9], [7,7,7,7], and [3,-1,-5,-9] are arithmetic sequences.
+# Given an integer array nums, return the number of arithmetic subarrays of nums.
+# A subarray is a contiguous subsequence of the array
+class Solution:
+    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n < 3:
+            return 0
+        left = res = 0
+        diff = nums[1] - nums[0]
+        for right in range(2, n):
+            if nums[right] - nums[right - 1] == diff:
+                res += max(0, right - left - 1)
+            else:
+                left = right - 1
+                diff = nums[right] - nums[left]
+        return res
+
+
