@@ -74,3 +74,41 @@ class Solution:
             dp[i] = [maxLen, maxCnt]
 
         return res
+
+# Paint N Houses
+# There is a row of N houses, each house can be painted with one of the three colors: red, blue or green. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color. Find the minimum cost to paint all houses.
+
+# The cost of painting each house in red, blue or green colour is given in the array r[], g[] and b[] respectively.
+class Solution:
+    def distinctColoring (self, N, r, g, b):
+        
+        # def solve(i, prev_color):
+        #     if i == N:
+        #         return 0
+
+        #     min_cost = float('inf')
+        #     for color in range(3):
+        #         if color == prev_color:
+        #             continue
+        #         if color == 0:
+        #             cost = r[i]
+        #         elif color == 1:
+        #             cost = g[i]
+        #         else:
+        #             cost = b[i]
+        #         min_cost = min(min_cost, cost + solve(i + 1, color))
+        #     return min_cost
+
+        # return solve(0, -1)
+        
+        dp = [[0]*3 for _ in range(N)]
+        dp[0][0] = r[0]
+        dp[0][1] = g[1]
+        dp[0][2] = b[2]
+        
+        for i in range(N):
+            dp[i][0] = r[i] + min(dp[i-1][1], dp[i-1][2])
+            dp[i][1] = g[i] + min(dp[i-1][0], dp[i-1][2])
+            dp[i][2] = b[i] + min(dp[i-1][0], dp[i-1][1])
+        
+        return min(dp[N-1])
