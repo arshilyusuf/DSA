@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+//binary lifting
 int n, q;
 vector<int> tree[200001];
 int ancestor[200005][21], dep[200005];
-
+int maxBits = 21;
 void pre_process(int node, int par)
 {
 
@@ -68,6 +68,14 @@ int LCA(int a, int b)
     return ancestor[a][0];
 }
 
+int kth(int x, int k, const vector<vector<int>> &grid) {
+    for (int bit = 0; bit < maxBits && x != -1; bit++) {
+        if (k & (1 << bit)) {
+            x = grid[bit][x];
+        }
+    }
+    return x;
+}
 int main()
 {
 
